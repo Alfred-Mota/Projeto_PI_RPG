@@ -1,0 +1,22 @@
+body{
+    background-color: #333;
+    padding: 0;
+    margin: 0;
+    /* Desativar a rolagem que pode ocorrer ao utilizar as setas */
+    overflow: hidden;
+}
+
+.game-container {
+    position: relative;
+    width: 352px;
+    height: 198px;
+    margin: 0 auto;
+    margin-top: 20px;
+    outline: 1px solid white;
+    
+    transform: scale(2) translateY(25%);
+}
+
+.game-container canvas{
+    image-rendering: pixelated;
+}
