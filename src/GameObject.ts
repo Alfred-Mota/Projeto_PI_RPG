@@ -56,10 +56,12 @@ export class GameObject{
 
     async doBehaviorEvent(map: OverworldMap){
 
-        if(map.isCutscenePlaying || this.behaviorLoop.length === 0) return
+        const isStanding = (this as any).isStanding === true
+
+        if(map.isCutscenePlaying || this.behaviorLoop.length === 0 || isStanding) return
 
         const eventConfig = this.behaviorLoop[this.behaviorLoopIndex] as EventObject
-        eventConfig.who = this.id
+        eventConfig.who = this.id!
         
         const eventHandler = new OverworlEvent({map, event: eventConfig})
         await eventHandler.init()

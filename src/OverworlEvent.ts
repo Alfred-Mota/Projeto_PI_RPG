@@ -1,7 +1,8 @@
 import type { OverworldMap } from "./OverworldMap";
 import type { Direction, Person } from "./Person";
+import { TextMessage } from "./TextMessage";
 
-type Events = "walk"|"stand"
+type Events = "walk"|"stand"|"textMessage"
 
 export type EventObject = {
     //Tipo do evento
@@ -11,9 +12,11 @@ export type EventObject = {
     //Tempo
     time? : number
     //Quem iniciou o evento
-    who: string | null
+    who?: string 
     //Tentar alguma ação novamente
     retry?:boolean
+    //texto ou mensagem
+    text?:string
 }
 
 interface OverworlEventConfig{
@@ -57,7 +60,8 @@ export class OverworlEvent{
         const who = this.map.gameObjects[this.event.who!] as Person
         const event = {
             type:"walk",
-            direction: this.event.direction
+            direction: this.event.direction,
+            retry: true
         }
 
         who.startBehavior({map:this.map},event)
@@ -72,6 +76,15 @@ export class OverworlEvent{
         }
 
         document.addEventListener("PersonWalkComplete", completeHandler)
+    }
+
+    textMessage(resolve: ()=>void){
+        const message = new TextMessage({
+            text: this.event.text!,
+            onComplete: resolve
+        })
+
+        message.init(document.querySelector(".game-container") as HTMLElement)
     }
 
     init():Promise<void>{

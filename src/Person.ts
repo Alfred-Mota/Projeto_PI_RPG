@@ -12,6 +12,7 @@ export class Person extends GameObject{
     movingProgressRemaining:number
     directionUpdate: Record<Direction, (Property|number)[]>
     isPlayerControlled:boolean
+    isStanding: boolean = false
     constructor(config : PersonConfig){
         super(config)
         this.id
@@ -50,15 +51,27 @@ export class Person extends GameObject{
         this.direction = behavior.direction as Direction  
         if(behavior.type === "walk"){
 
-            if(state.map.isSpaceTaken(this.positionX, this.positionY,this.direction)) return
+            if(state.map.isSpaceTaken(this.positionX, this.positionY,this.direction)) {
+  
+                behavior.retry && setTimeout(()=>{
+                    this.startBehavior(state,behavior)
+                }, 10)
+
+                return
+            }
             state.map.moveWall(this.positionX,this.positionY, this.direction)
             this.movingProgressRemaining = 16
             this.updateSprite()
         }else if(behavior.type === "stand"){
+
+            this.isStanding = true
             setTimeout(()=>{
+
                 utils.emitEvet("PersonStandComplete", {whoId:this.id})
                 this.updateSprite()
+                this.isStanding = false
             }, behavior.time)
+            
         }
         
     }

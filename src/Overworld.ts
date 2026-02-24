@@ -60,15 +60,16 @@ export class Overworld{
         this.startGameLoop()
         
         this.map.startCutscene([
-            {type:"walk", direction:"left", who:"hero"},
-            {type:"walk", direction:"right", who:"npc1"},
-            {type:"walk", direction:"left", who:"hero"},
-            {type:"walk", direction:"right", who:"npc1"},
-            {type:"stand", direction:"right", who:"hero"},
-            {type:"stand", direction:"left", who:"npc1"},
-            {type:"walk", direction:"right", who:"npc1"},
-            {type:"walk", direction:"right", who:"npc1"},
-            {type:"walk", direction:"right", who:"npc1"},
+            // {type:"walk", direction:"left", who:"hero"},
+            // {type:"walk", direction:"right", who:"npc1"},
+            // {type:"walk", direction:"left", who:"hero"},
+            // {type:"walk", direction:"right", who:"npc1"},
+            // {type:"stand", direction:"right", who:"hero"},
+            // {type:"stand", direction:"left", who:"npc1"},
+            // {type:"walk", direction:"right", who:"npc1"},
+            // {type:"walk", direction:"right", who:"npc1"},
+            // {type:"walk", direction:"right", who:"npc1"},
+            {type:"textMessage", text:"Ola pessoal"},
         ])
     }
 }

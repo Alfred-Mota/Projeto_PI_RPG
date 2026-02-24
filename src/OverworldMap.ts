@@ -76,7 +76,11 @@ export class OverworldMap{
         }
 
         this.isCutscenePlaying = false
-        this.mountObjects()
+
+        Object.values(this.gameObjects).forEach(gameObject =>{
+            gameObject.doBehaviorEvent(this)
+        })
+        
     }
 
     mountObjects(){
