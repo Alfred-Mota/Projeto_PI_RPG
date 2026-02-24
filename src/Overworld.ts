@@ -55,10 +55,20 @@ export class Overworld{
     init(){
         this.map = new OverworldMap(window.OverworldMaps.DemoRoom)
         this.map.mountObjects()
-        console.log(this.map.walls)
         this.directionInput = new DirectionInput()
         this.directionInput.init()
-
         this.startGameLoop()
+        
+        this.map.startCutscene([
+            {type:"walk", direction:"left", who:"hero"},
+            {type:"walk", direction:"right", who:"npc1"},
+            {type:"walk", direction:"left", who:"hero"},
+            {type:"walk", direction:"right", who:"npc1"},
+            {type:"stand", direction:"right", who:"hero"},
+            {type:"stand", direction:"left", who:"npc1"},
+            {type:"walk", direction:"right", who:"npc1"},
+            {type:"walk", direction:"right", who:"npc1"},
+            {type:"walk", direction:"right", who:"npc1"},
+        ])
     }
 }

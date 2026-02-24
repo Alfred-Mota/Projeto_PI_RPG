@@ -18,6 +18,11 @@ const utils = {
         }     
          
         return map[direction]
+    },
+
+    emitEvet : (name:string, detail:any)=>{
+        const event = new CustomEvent(name, {detail})
+        document.dispatchEvent(event)
     }
 
 }

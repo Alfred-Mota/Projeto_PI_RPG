@@ -90,7 +90,7 @@ export class Sprite{
         this.currentAnimation = "walk-up" //config.currentAnimation || "idle-down"
         this.currentAnimationFrame = config.currentAnimationFrame || 0
 
-        this.animationFrameLimit = config.animationFrameLimit || 8
+        this.animationFrameLimit = config.animationFrameLimit || 16
         this.animationFrameProgress = this.animationFrameLimit
 
         this.gameObject = config.gameObject
@@ -128,7 +128,6 @@ export class Sprite{
 
         const x = this.gameObject.positionX - 8 + utils.withGrid(10.5) - cameraPerson.positionX
         const y = this.gameObject.positionY + 16 + utils.withGrid(6) - cameraPerson.positionY
-
         this.isLoadShadow && ctx.drawImage(this.shadow,x,y)
 
         const [frameX, frameY] = this.frame

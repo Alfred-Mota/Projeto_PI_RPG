@@ -1,4 +1,5 @@
 import { GameObject, type GameObjectConfig } from "./GameObject";
+import utils from "./utils";
 
 interface PersonConfig extends GameObjectConfig{
     isPlayerControlled?:boolean
@@ -7,12 +8,13 @@ type Property = "positionY" | "positionX"
 export type Direction = "up" | "down" | "left" | "right";
 
 export class Person extends GameObject{
+
     movingProgressRemaining:number
     directionUpdate: Record<Direction, (Property|number)[]>
     isPlayerControlled:boolean
     constructor(config : PersonConfig){
         super(config)
-
+        this.id
         this.movingProgressRemaining = 0
         this.isPlayerControlled = config.isPlayerControlled || false
         this.directionUpdate = {
@@ -33,7 +35,7 @@ export class Person extends GameObject{
             //
             //
 
-            if(this.movingProgressRemaining === 0 && state.arrow && this.isPlayerControlled){
+            if(!state.map.isCutscenePlaying && state.arrow && this.isPlayerControlled){
                 this.startBehavior(state,{
                     type:"walk",
                     direction: state.arrow
@@ -51,6 +53,12 @@ export class Person extends GameObject{
             if(state.map.isSpaceTaken(this.positionX, this.positionY,this.direction)) return
             state.map.moveWall(this.positionX,this.positionY, this.direction)
             this.movingProgressRemaining = 16
+            this.updateSprite()
+        }else if(behavior.type === "stand"){
+            setTimeout(()=>{
+                utils.emitEvet("PersonStandComplete", {whoId:this.id})
+                this.updateSprite()
+            }, behavior.time)
         }
         
     }
@@ -61,6 +69,13 @@ export class Person extends GameObject{
             const [property, value] = this.directionUpdate[direction] as [Property, number]
             (this[property] as number) += value
             this.movingProgressRemaining -= 1
+
+            if(this.movingProgressRemaining === 0){
+                const detail = {
+                    whoId: this.id
+                }
+                utils.emitEvet("PersonWalkComplete", detail)
+            }
         
     }
 
