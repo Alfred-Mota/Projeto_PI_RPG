@@ -1,8 +1,10 @@
+import { BooksMural } from "./BooksMural";
 import type { OverworldMap } from "./OverworldMap";
 import type { Direction, Person } from "./Person";
+import { SceneTransition } from "./SceneTransition";
 import { TextMessage } from "./TextMessage";
-
-type Events = "walk"|"stand"|"textMessage"
+import utils from "./utils";
+type Events = "walk"|"stand"|"textMessage"|"changeMap"|"mural"
 
 export type EventObject = {
     //Tipo do evento
@@ -17,6 +19,11 @@ export type EventObject = {
     retry?:boolean
     //texto ou mensagem
     text?:string
+    //
+    faceHero?:string
+
+    //
+    map?:string
 }
 
 interface OverworlEventConfig{
@@ -79,12 +86,34 @@ export class OverworlEvent{
     }
 
     textMessage(resolve: ()=>void){
+
+        if(this.event.faceHero){
+            const person = this.map.gameObjects[this.event.faceHero] as Person
+            person.direction = utils.oppositeDirection(this.map.gameObjects.hero.direction) as Direction
+        }
+
         const message = new TextMessage({
             text: this.event.text!,
             onComplete: resolve
         })
 
         message.init(document.querySelector(".game-container") as HTMLElement)
+    }
+
+    changeMap(resolve: ()=>void){
+        const sceneTransition = new SceneTransition()
+        const callback = ()=>{ 
+            this.map.overworld?.startMap(window.OverworldMaps[this.event.map!])
+            resolve()
+        }
+
+        sceneTransition.init(document.querySelector(".game-container") as HTMLElement, callback)
+        
+    }
+
+    mural(resolve: ()=>void){
+        const muralBooks = new BooksMural({onComplete: resolve})
+        muralBooks.init(document.querySelector(".game-container") as HTMLElement)
     }
 
     init():Promise<void>{

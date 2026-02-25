@@ -1,6 +1,7 @@
 import { OverworldMap } from "./OverworldMap"
 import { Sprite } from "./Sprite"
 import { OverworlEvent, type EventObject } from "./OverworlEvent"
+import type { Direction } from "./Person"
 
 export interface GameObjectConfig {
     //As coordenadas do objeto
@@ -11,21 +12,25 @@ export interface GameObjectConfig {
     src:string
 
     //Direção do objeto
-    direction: string
+    direction: Direction
 
     //Loop de comportamentos
-    behaviorLoop? : Record<string,any>[]
+    behaviorLoop? : EventObject[]
+
+    //
+    talking?: Record<string, EventObject[]>[]
 }
 
 export class GameObject{
     positionX: number
     positionY: number
     sprite: Sprite
-    direction: string
+    direction: Direction
     isMounted: boolean = false
     //ID AULA 8
     id:string | null = null
-    behaviorLoop : Record<string,any>[]
+    behaviorLoop : EventObject[]
+    talking?: Record<string, EventObject[]>[]
     behaviorLoopIndex: number
 
     constructor(config:GameObjectConfig){
@@ -35,7 +40,7 @@ export class GameObject{
 
         this.behaviorLoop = config.behaviorLoop || []
         this.behaviorLoopIndex = 0
-
+        this.talking = config.talking || []
         this.sprite = new Sprite({
             gameObject: this,
             src: config.src,

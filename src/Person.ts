@@ -24,6 +24,7 @@ export class Person extends GameObject{
             "right": ["positionX", 1],
             "left": ["positionX", -1],
         }
+
     }
 
     update(state:any): void {

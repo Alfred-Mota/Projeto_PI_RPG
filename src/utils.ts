@@ -23,6 +23,18 @@ const utils = {
     emitEvet : (name:string, detail:any)=>{
         const event = new CustomEvent(name, {detail})
         document.dispatchEvent(event)
+    },
+
+    oppositeDirection: (direction: Direction) =>{
+
+         const map = {
+            "down": "up",
+            "up":   "down",
+            "right": "left",
+            "left": "right",
+        }  
+
+        return map[direction]
     }
 
 }

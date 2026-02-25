@@ -1,5 +1,6 @@
  import { DirectionInput } from "./DirectionInput"
-import { OverworldMap } from "./OverworldMap"
+import { KeyPressListener } from "./KeyPressListener"
+import { OverworldMap, type OverworldMapConfig } from "./OverworldMap"
 
 interface OverworldConfig{
     //Elemento DIV que contem o elemento CANVAS
@@ -52,14 +53,40 @@ export class Overworld{
         step()
     }
 
-    init(){
-        this.map = new OverworldMap(window.OverworldMaps.DemoRoom)
+    bindActionInput(){
+        //Verificando cenas especiais pelo mapa
+        const callback = ()=>{
+            this.map!.checkForActionCutscene()
+        }
+        new KeyPressListener({keyCode: "Enter",  callback})
+    }
+
+    checkHeroPosition(){
+        document.addEventListener("PersonWalkComplete", (e:any)=>{
+            if(e.detail.whoId === "hero"){
+                
+                this.map?.checkForFootstepCutscene()
+            }
+        })
+    }
+
+    startMap(mapConfig: OverworldMapConfig){
+        this.map = new OverworldMap(mapConfig)
+        this.map.overworld = this
         this.map.mountObjects()
+    }
+
+    init(){
+        this.startMap(window.OverworldMaps.Dinner)
+        this.bindActionInput()
+        this.checkHeroPosition()
         this.directionInput = new DirectionInput()
         this.directionInput.init()
         this.startGameLoop()
         
-        this.map.startCutscene([
+        this.map!.startCutscene([
+            {type:"changeMap", map:"DemoRoom"},
+
             // {type:"walk", direction:"left", who:"hero"},
             // {type:"walk", direction:"right", who:"npc1"},
             // {type:"walk", direction:"left", who:"hero"},
@@ -67,9 +94,7 @@ export class Overworld{
             // {type:"stand", direction:"right", who:"hero"},
             // {type:"stand", direction:"left", who:"npc1"},
             // {type:"walk", direction:"right", who:"npc1"},
-            // {type:"walk", direction:"right", who:"npc1"},
-            // {type:"walk", direction:"right", who:"npc1"},
-            {type:"textMessage", text:"Ola pessoal"},
+            // {type:"textMessage", text:"Ola pessoal"},
         ])
     }
 }
