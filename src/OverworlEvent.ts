@@ -1,10 +1,11 @@
+import { Battle } from "./Battle/Battle";
 import { BooksMural } from "./BooksMural";
 import type { OverworldMap } from "./OverworldMap";
 import type { Direction, Person } from "./Person";
 import { SceneTransition } from "./SceneTransition";
 import { TextMessage } from "./TextMessage";
 import utils from "./utils";
-type Events = "walk"|"stand"|"textMessage"|"changeMap"|"mural"
+type Events = "walk"|"stand"|"textMessage"|"changeMap"|"mural"|"battle"
 
 export type EventObject = {
     //Tipo do evento
@@ -24,6 +25,10 @@ export type EventObject = {
 
     //
     map?:string
+
+    //
+    enemy?:string
+
 }
 
 interface OverworlEventConfig{
@@ -114,6 +119,16 @@ export class OverworlEvent{
     mural(resolve: ()=>void){
         const muralBooks = new BooksMural({onComplete: resolve})
         muralBooks.init(document.querySelector(".game-container") as HTMLElement)
+    }
+
+    battle(resolve:()=>void){
+        const sceneTransition = new SceneTransition()
+        const enemy = this.map.gameObjects[this.event.who!] as Person
+        const battle = new Battle({onComplete:resolve,enemy})
+        const callback = ()=>{ 
+            battle.init(document.querySelector(".game-container") as HTMLElement)
+        }
+        sceneTransition.init(document.querySelector(".game-container") as HTMLElement, callback)
     }
 
     init():Promise<void>{

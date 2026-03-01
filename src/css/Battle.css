@@ -1,0 +1,36 @@
+.Battle{
+    position: absolute;
+    inset: 0;
+    background-image: url(/images/maps/StreetBattle.png);
+    background-size: cover;
+    image-rendering: pixelated;
+}
+
+.Battle > .TextMessage{
+    position: absolute;
+    width: 98%;
+    bottom: -46px;
+}
+
+.Battle_player, .Battle_enemy{
+    position: absolute;
+    transform: scale(2);
+    width: 32px;
+    height: 32px;
+    overflow: hidden; 
+    /* Overflow esconde oque excede a caixa de 32x32 pixels*/
+    background-image: url(/images/characters/shadow.png);;
+}
+
+.Battle_player{
+    bottom: 30px;
+    left: 33px;
+}
+.Battle_player img{
+    transform: translateY(-64px);
+}
+
+.Battle_enemy{
+    right: 31px;
+    top: 43px;
+}

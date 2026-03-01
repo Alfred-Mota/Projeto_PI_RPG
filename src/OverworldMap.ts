@@ -217,6 +217,7 @@ window.OverworldMaps = {
                     events:[
                         {type:"textMessage", text:"Estou cansado...", faceHero:"npc1"},
                         {type:"textMessage", text:"Já pode ir embora ?"},
+                        {type:"battle", who:"npc1"},
                         {who:"hero",type:"walk", direction:"left"},
                         {who:"hero",type:"walk", direction:"up"},
                         {who:"hero",type:"walk", direction:"up"},
@@ -230,17 +231,18 @@ window.OverworldMaps = {
                 src: "/images/characters/people/npc2.png",
                 direction:"down",
                 behaviorLoop:[
-                    // {type:"walk", direction:"left"},
-                    // {type:"stand", direction:"up", time:800},
-                    // {type:"walk", direction:"up"},
-                    // {type:"walk", direction:"right"},
-                    // {type:"walk", direction:"down"},
+                    {type:"walk", direction:"left"},
+                    {type:"stand", direction:"up", time:800},
+                    {type:"walk", direction:"up"},
+                    {type:"walk", direction:"right"},
+                    {type:"walk", direction:"down"},
                 ],
                 talking:[
                    {
                     events:[
                         {type:"textMessage", text:"npc1: Opa, bão?", faceHero:"npc2"},
                         {type:"textMessage", text:"hero: Joia :)"},
+                        {type:"battle", enemy:"npc2"},
                         {who:"hero",type:"walk", direction:"left"},
                         {who:"hero",type:"walk", direction:"up"},
                         

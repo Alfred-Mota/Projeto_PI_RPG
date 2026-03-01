@@ -32,18 +32,19 @@ export class GameObject{
     behaviorLoop : EventObject[]
     talking?: Record<string, EventObject[]>[]
     behaviorLoopIndex: number
+    src:string
 
     constructor(config:GameObjectConfig){
         this.positionX = config.positionX || 0
         this.positionY = config.positionY || 0
         this.direction = config.direction || "right"
-
+        this.src = config.src
         this.behaviorLoop = config.behaviorLoop || []
         this.behaviorLoopIndex = 0
         this.talking = config.talking || []
         this.sprite = new Sprite({
             gameObject: this,
-            src: config.src,
+            src: this.src,
             animations:null,
             currentAnimation:null,
             currentAnimationFrame:null
@@ -61,9 +62,10 @@ export class GameObject{
 
     async doBehaviorEvent(map: OverworldMap){
 
-        const isStanding = (this as any).isStanding === true
+        const isStanding = (this as any).isStanding === false
+        const isWalking = (this as any).isWalking === false
 
-        if(map.isCutscenePlaying || this.behaviorLoop.length === 0 || isStanding) return
+        if(map.isCutscenePlaying || this.behaviorLoop.length === 0 || isStanding || isWalking) return
 
         const eventConfig = this.behaviorLoop[this.behaviorLoopIndex] as EventObject
         eventConfig.who = this.id!

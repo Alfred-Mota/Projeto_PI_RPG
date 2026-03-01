@@ -1,0 +1,67 @@
+/* --- ANIMAÇÃO DO SPRITE (O robô mexendo as pernas) --- */
+@keyframes walk-animation {
+    from { transform: translateY(-630px) translateX(0px); }
+    to { transform: translateY(-630px) translateX(-620px); }
+}
+
+[walk="walk-animation"]{
+    animation: walk-animation 0.8s steps(6) infinite; /* Ajustei o tempo para parecer um passo real */
+}
+
+/* Aplica nos dois times, mas o inimigo terá o scaleX extra via seletor específico */
+.Attack[attack-name="Hydraulic-Strike"] img {
+    position: absolute;
+    left: 0;
+    transform: translateY(-630px) translateX(-620px) ;
+    image-rendering: pixelated;
+}
+
+.Attack[attack-name="Hydraulic-Strike"][team="enemy"] img {
+    transform: translateY(-630px) translateX(-630px)
+}
+
+.Attack[attack-name="Hydraulic-Strike"][team="enemy"] {
+    transform: scaleX(-1)
+}
+
+.Attack[attack-name="Hydraulic-Strike"][team="player"] {
+    transform: translateY(-5px)
+}
+ 
+
+/* --- ANIMAÇÃO DO DESLOCAMENTO (A div andando na tela) --- */
+[animation="move-player"] {
+    animation: move-forward-player 2s linear forwards;
+}
+
+[animation="come-back-player"]{
+    animation:comeBack-move-player 1s linear forwards;
+}
+
+[animation="move-enemy"] {
+    animation: move-forward-enemy 2s linear forwards;
+}
+[animation="come-back-enemy"]{
+    animation: comeBack-move-enemy 1s linear forwards;
+}
+
+
+
+@keyframes move-forward-player {
+    from { left: 33px; }
+    to { left: 60px; }
+}
+
+@keyframes comeBack-move-player{
+    from { left: 60px; transform: scaleX(-1);}
+    to { left: 33px; transform: scaleX(-1);}
+}
+
+@keyframes move-forward-enemy {
+    from { right: -10px; }
+    to { right: 60px; }
+}
+@keyframes comeBack-move-enemy{
+    from {right: 60px; transform: scaleX(1);}
+    to { right: -10px;; transform: scaleX(1);}
+}

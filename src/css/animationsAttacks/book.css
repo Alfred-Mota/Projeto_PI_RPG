@@ -1,0 +1,29 @@
+.Attack[attack-name="Headshot"] img { 
+    position: absolute;
+    width: 100%; 
+    height: 100%;
+    object-fit: contain;
+    image-rendering: pixelated; 
+}
+.Attack[attack-name="Headshot"]{ 
+    animation: leviter 1.5s ease-in-out infinite alternate;
+}
+
+.Attack[attack-name="Headshot"][team="player"]{
+    animation: atack-player 1.5s ;
+}
+
+@keyframes atack-player {
+    0% { transform: translateX(0); }
+    20% { transform: translateX(200px); } /* Vai rápido até o alvo (20% do tempo) */
+    100% { transform: translateX(0); }    /* Volta suavemente (80% do tempo) */
+}
+
+@keyframes leviter {
+    from{
+        transform: translateY(5px);
+    }to{
+        
+        transform: translateY(-5px);
+    }
+}

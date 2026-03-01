@@ -1,0 +1,8 @@
+[team="player"]{
+    top: 25px;
+    left: 33px;
+}
+[team="enemy"]{
+    bottom: 15px;
+    right: 10px;
+}

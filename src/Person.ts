@@ -13,6 +13,7 @@ export class Person extends GameObject{
     directionUpdate: Record<Direction, (Property|number)[]>
     isPlayerControlled:boolean
     isStanding: boolean = false
+    isWalking: boolean = false
     constructor(config : PersonConfig){
         super(config)
         this.id
@@ -51,7 +52,7 @@ export class Person extends GameObject{
     startBehavior(state:any, behavior:any){
         this.direction = behavior.direction as Direction  
         if(behavior.type === "walk"){
-
+            this.isWalking = true
             if(state.map.isSpaceTaken(this.positionX, this.positionY,this.direction)) {
   
                 behavior.retry && setTimeout(()=>{
@@ -88,6 +89,7 @@ export class Person extends GameObject{
                 const detail = {
                     whoId: this.id
                 }
+                this.isWalking = false
                 utils.emitEvet("PersonWalkComplete", detail)
             }
         

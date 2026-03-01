@@ -35,6 +35,12 @@ const utils = {
         }  
 
         return map[direction]
+    },
+
+    wait: (ms:number) =>{
+        return new Promise<void>((resolve)=>{
+            setTimeout(()=>resolve(), ms)
+        })
     }
 
 }

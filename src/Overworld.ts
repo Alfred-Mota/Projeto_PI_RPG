@@ -1,6 +1,8 @@
  import { DirectionInput } from "./DirectionInput"
 import { KeyPressListener } from "./KeyPressListener"
+import { Music } from "./Music"
 import { OverworldMap, type OverworldMapConfig } from "./OverworldMap"
+import { TitleScreen } from "./TitleScreen"
 
 interface OverworldConfig{
     //Elemento DIV que contem o elemento CANVAS
@@ -8,11 +10,13 @@ interface OverworldConfig{
 }
 
 export class Overworld{
+    title: TitleScreen | null = null
     element: HTMLElement
     canvas: HTMLCanvasElement
     ctx: CanvasRenderingContext2D
     map: OverworldMap | null
     directionInput: DirectionInput | null
+    music : Music 
 
     constructor(config : OverworldConfig){
 
@@ -21,6 +25,7 @@ export class Overworld{
         this.ctx = this.canvas.getContext("2d") as CanvasRenderingContext2D
         this.map = null
         this.directionInput = null
+        this.music = new Music({src:"/music/music1.mp3",volume:.5})
     }
 
     startGameLoop(){
@@ -76,8 +81,12 @@ export class Overworld{
         this.map.mountObjects()
     }
 
-    init(){
-        this.startMap(window.OverworldMaps.Dinner)
+    async init(){
+        const container = document.querySelector(".game-container") as HTMLElement 
+        this.music.init(container)
+        this.title = new TitleScreen()
+        await this.title.init(container)
+        this.startMap(window.OverworldMaps.DemoRoom)
         this.bindActionInput()
         this.checkHeroPosition()
         this.directionInput = new DirectionInput()
@@ -85,8 +94,9 @@ export class Overworld{
         this.startGameLoop()
         
         this.map!.startCutscene([
-            {type:"changeMap", map:"DemoRoom"},
-
+            // {type:"battle"},
+            
+            // {type:"changeMap", map:"DemoRoom"},
             // {type:"walk", direction:"left", who:"hero"},
             // {type:"walk", direction:"right", who:"npc1"},
             // {type:"walk", direction:"left", who:"hero"},

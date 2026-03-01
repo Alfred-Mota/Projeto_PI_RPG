@@ -1,0 +1,18 @@
+/* A Janela (Div pai criada no JS) */
+.Attack {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    overflow: hidden;
+    animation: fade-in .5s forwards;
+}
+
+.battle-damage-blink{
+    animation: battle-damage-blink .3s steps(2,start) 6;
+}
+
+@keyframes battle-damage-blink {
+    to {
+        visibility: hidden;
+    }
+}
