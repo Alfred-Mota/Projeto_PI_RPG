@@ -1,5 +1,5 @@
 import { Battle } from "./Battle/Battle";
-import { BooksMural } from "./BooksMural";
+import { Mural } from "./Mural";
 import type { OverworldMap } from "./OverworldMap";
 import type { Direction, Person } from "./Person";
 import { SceneTransition } from "./SceneTransition";
@@ -28,6 +28,9 @@ export type EventObject = {
 
     //
     enemy?:string
+
+    //
+    logoInfo?: Record<string,any>
 
 }
 
@@ -117,14 +120,21 @@ export class OverworlEvent{
     }
 
     mural(resolve: ()=>void){
-        const muralBooks = new BooksMural({onComplete: resolve})
-        muralBooks.init(document.querySelector(".game-container") as HTMLElement)
+        const mural = new Mural({onComplete: resolve, logos:this.map.logos!})
+        mural.init(document.querySelector(".game-container") as HTMLElement)
     }
 
     battle(resolve:()=>void){
         const sceneTransition = new SceneTransition()
         const enemy = this.map.gameObjects[this.event.who!] as Person
-        const battle = new Battle({onComplete:resolve,enemy})
+        const music = this.map.overworld?.music
+        music?.changeTrack("/music/music2.mp3")
+        const battle = new Battle({
+            onComplete:()=>{
+                music?.changeTrack("/music/music1.mp3")
+                resolve()
+            },
+            enemy})
         const callback = ()=>{ 
             battle.init(document.querySelector(".game-container") as HTMLElement)
         }

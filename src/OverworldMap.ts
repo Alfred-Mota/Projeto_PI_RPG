@@ -1,8 +1,9 @@
 import { GameObject } from "./GameObject";
 import { Person, type Direction } from "./Person";
-import utils from "./utils";
+import utils, { demoLogos } from "./utils";
 import { OverworlEvent, type EventObject } from "./OverworlEvent";
 import { Overworld } from "./Overworld";
+import type { LogoItem } from "./Mural";
 export interface OverworldMapConfig{
     //O mapa superior, telhados, copas de arvores...
     upperSrc: string
@@ -18,6 +19,8 @@ export interface OverworldMapConfig{
 
     //Espaços especiais
     cutsceneSpaces?: Record<string, Record<string, EventObject[]>[]>
+
+    logos?:LogoItem[]
 }
  
 
@@ -35,9 +38,11 @@ export class OverworldMap{
     cutsceneSpaces?: Record<string, Record<string, EventObject[]>[]>
 
     overworld: Overworld | null = null
+    logos?:LogoItem[]
 
     constructor(config:OverworldMapConfig){
         //Imagem superior
+        this.logos = config.logos || []
         this.upperImage = new Image()
         this.upperImage.src = config.upperSrc
         this.cutsceneSpaces = config.cutsceneSpaces || {}
@@ -154,6 +159,7 @@ window.OverworldMaps = {
     DemoRoom:{
         upperSrc: "/images/maps/DemoUpper.png",
         lowerSrc: "/images/maps/DemoLower.png",
+        logos:demoLogos,
         walls:{
             [utils.asGridCoords(7,5)]:true,
             [utils.asGridCoords(8,4)]:true,
@@ -164,15 +170,18 @@ window.OverworldMaps = {
             [utils.asGridCoords(7,2)]:[
                 {
                     events:[
-                        {who:"npc2",type:"walk", direction:"left"},
-                        {who:"npc2",type:"textMessage", text:"Você nao pode ir por ai !!"},
-
-                        {who:"hero", type:"walk", direction:"down"},
-                        {who:"hero", type:"walk", direction:"left"},
-                        {who:"hero", type:"walk", direction:"left"},
-
-                        {who:"npc2",type:"walk", direction:"right"},
                         {who:"npc2",type:"stand", direction:"left"},
+                        {who:"npc2",type:"textMessage", text:"Lanchar neh!"},
+                        {who:"hero",type:"stand", direction:"right"},
+                        {who:"hero",type:"textMessage", text:"Sim, mo fome!"},
+                    ]
+                }
+            ],
+            [utils.asGridCoords(7,1)]:[
+                {
+                    events:[
+                        {type:"changeMap", map:"Dinner"},
+                        
                     ]
                 }
             ],
@@ -188,7 +197,6 @@ window.OverworldMaps = {
                 {
                     events:[
                         {type:"mural"},
-                        
                     ]
                 }
             ],
@@ -242,7 +250,7 @@ window.OverworldMaps = {
                     events:[
                         {type:"textMessage", text:"npc1: Opa, bão?", faceHero:"npc2"},
                         {type:"textMessage", text:"hero: Joia :)"},
-                        {type:"battle", enemy:"npc2"},
+                        {type:"battle", who:"npc2"},
                         {who:"hero",type:"walk", direction:"left"},
                         {who:"hero",type:"walk", direction:"up"},
                         
@@ -256,6 +264,15 @@ window.OverworldMaps = {
     Kitchen:{
         upperSrc: "/images/maps/KitchenUpper.png",
         lowerSrc: "/images/maps/KitchenLower.png",
+        cutsceneSpaces:{
+            [utils.asGridCoords(5,8)]:[
+                {
+                    events:[
+                        {type:"changeMap", map:"DemoRoom"},
+                    ]
+                }
+            ],
+        },
         gameObjects:{
             hero: new Person({
             positionX:utils.withGrid(5),
@@ -290,6 +307,14 @@ window.OverworldMaps = {
                         {who:"npcA",type:"textMessage", text:"Ola, o cafe é 2,50R$"},
                         {who:"hero",type:"textMessage", text:"Muito caro, obrigado"},
                         {who:"hero",type:"walk",direction:"right"},
+                    ]
+                }
+            ],
+            [utils.asGridCoords(6,10)]:[
+                {
+                    events:[
+                        {type:"changeMap", map:"DemoRoom"},
+                        
                     ]
                 }
             ],

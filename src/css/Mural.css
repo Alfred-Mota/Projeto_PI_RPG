@@ -1,0 +1,74 @@
+/* O fundo escuro */
+.Mural_Overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75); /* Levemente menos opaco */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10; /* Garantir que fique acima de tudo */
+}
+
+.Mural_Container {
+    display: flex;
+    background-color: var(--menu-selected-background);
+    padding: 12px; /* Reduzido de 20px */
+    border: 1px solid white; /* Borda mais fina */
+    border-radius: 4px;
+    width: 380px; /* Reduzido de 500px */
+    gap: 12px; /* Espaço interno menor */
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+.Mural_Main {
+    flex: 1.5; /* Proporção mais equilibrada para container menor */
+}
+
+.Mural_Grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px; /* Itens mais próximos */
+    margin-bottom: 10px;
+}
+
+.Mural_Sidebar {
+    flex: 1;
+    border-left: 1px solid #444;
+    padding-left: 10px;
+    color: white;
+    font-size: 11px; /* Fonte menor para caber no espaço reduzido */
+}
+
+.Mural_Sidebar h3 {
+    font-size: 13px;
+    margin-bottom: 4px;
+}
+
+.Logo {
+    cursor: pointer;
+    background: #222;
+    padding: 3px;
+    border: 1px solid transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Logo:hover, .Logo:focus {
+    border-color: #f0c040;
+    outline: none;
+    background: #333;
+}
+
+.Logo img {
+    width: 32px; /* Reduzido de 50px */
+    height: 32px; /* Reduzido de 50px */
+    image-rendering: pixelated;
+}
+
+/* Botão de sair mais discreto */
+.BooksMural_button {
+    font-size: 10px;
+    padding: 4px 8px;
+    cursor: pointer;
+}

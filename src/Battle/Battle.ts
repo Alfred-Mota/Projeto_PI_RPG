@@ -21,6 +21,7 @@ export class Battle{
     constructor(config:BattleConfig){
         this.onComplete = config.onComplete
         this.enemy = config.enemy
+        console.log("enemy: ", this.enemy)
         this.activeCombatant = {
             player:"Hero",
             enemy: this.enemy.id!

@@ -1,3 +1,4 @@
+import type { LogoItem } from "./Mural"
 import type { Direction } from "./Person"
 
 const utils = {
@@ -46,3 +47,36 @@ const utils = {
 }
 
 export default utils
+
+export const demoLogos:LogoItem[] = [
+    {
+        name: "Porandu",
+        src: "/images/logos_extensoes/PORANDU.png",
+        description: "Projeto responsável por levar tecnologia e inovação ao setor agropecuário, otimizando processos no campo.",
+    },
+    {
+        name: "SkillFull",
+        src: "/images/logos_extensoes/skillfull.png",
+        description: "Plataforma focada no desenvolvimento de habilidades técnicas e cursos profissionalizantes para a comunidade.",
+    },
+    {
+        name: "Atlética",
+        src: "/images/logos_extensoes/atletica.png",
+        description: "Associação voltada ao fomento do esporte universitário e integração entre os estudantes através de competições.",
+    },
+    {
+        name: "Inovatos",
+        src: "/images/logos_extensoes/inovatos.png",
+        description: "Empresa junior, responsavel por realizar projetos e serviços",
+    },
+    {
+        name: "RoboPatos",
+        src: "/images/logos_extensoes/roboPatos.png",
+        description: "Extensão voltada ao estudo de robotica e programação",
+    },
+    {
+        name: "Pomar",
+        src: "/images/logos_extensoes/pomar.png",
+        description: "...",
+    },
+];
